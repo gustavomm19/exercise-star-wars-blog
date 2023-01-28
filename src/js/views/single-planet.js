@@ -3,22 +3,22 @@ import PropTypes from "prop-types";
 import { Link, useParams } from "react-router-dom";
 import { Context } from "../store/appContext";
 
-export const Single = (props) => {
+export const SinglePlanet = (props) => {
   const { store, actions } = useContext(Context);
   const params = useParams();
   const [loading, setLoading] = useState(false);
-  const [character, setCharacter] = useState(null);
+  const [planet, setPlanet] = useState(null);
 
-  const getCharacter = async () => {
+  const getPlanet = async () => {
     try {
       setLoading(true);
       const res = await fetch(
-        `https://www.swapi.tech/api/people/${params.theid}`
+        `https://www.swapi.tech/api/planets/${params.theid}`
       );
       const data = await res.json();
 
       console.log(data.result.properties);
-      setCharacter(data.result.properties);
+      setPlanet(data.result.properties);
       setLoading(false);
     } catch (e) {
       console.log(e);
@@ -27,7 +27,7 @@ export const Single = (props) => {
   };
 
   useEffect(() => {
-    getCharacter();
+    getPlanet();
   }, []);
 
   if (loading) return <p>...Loading</p>;
@@ -37,7 +37,7 @@ export const Single = (props) => {
       <div className="d-flex justify-content-between">
         <div style={{ width: "600px", height: "400px", background: "gray" }} />
         <div style={{ width: "500px" }} className="text-center">
-          <h2>{character?.name}</h2>
+          <h2>{planet?.name}</h2>
           <p className="fw-semibold fs-5">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec
             consectetur libero quis lobortis convallis. Quisque elit est,
@@ -55,21 +55,21 @@ export const Single = (props) => {
         <thead>
           <tr>
             <th scope="col">Name</th>
-            <th scope="col">Birth Year</th>
-            <th scope="col">Gender</th>
-            <th scope="col">Height</th>
-            <th scope="col">Skin color</th>
-            <th scope="col">Eye color</th>
+            <th scope="col">Climate</th>
+            <th scope="col">Population</th>
+            <th scope="col">Orbital Period</th>
+            <th scope="col">Rotation Period</th>
+            <th scope="col">Diameter</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td>{character?.name}</td>
-            <td>{character?.birth_year}</td>
-            <td>{character?.gender}</td>
-            <td>{character?.height}</td>
-            <td>{character?.skin_color}</td>
-            <td>{character?.eye_color}</td>
+            <td>{planet?.name}</td>
+            <td>{planet?.climate}</td>
+            <td>{planet?.population}</td>
+            <td>{planet?.orbital_period}</td>
+            <td>{planet?.rotation_period}</td>
+            <td>{planet?.diameter}</td>
           </tr>
         </tbody>
       </table>
@@ -81,8 +81,4 @@ export const Single = (props) => {
       </Link>
     </div>
   );
-};
-
-Single.propTypes = {
-  match: PropTypes.object,
 };
